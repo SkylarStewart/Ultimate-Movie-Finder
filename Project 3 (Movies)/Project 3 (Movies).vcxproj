@@ -141,6 +141,12 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="feelingsgenerator.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\..\Downloads\emotions.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
