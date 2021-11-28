@@ -23,8 +23,21 @@
     <ClInclude Include="feelingsgenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Movie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parseFiles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\..\Downloads\emotions.txt" />
+    <Text Include="emotions.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="newMovieDatabase.csv" />
   </ItemGroup>
 </Project>

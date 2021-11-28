@@ -7,6 +7,7 @@ class Movie
 	string genre;
 	int year;
 
+public:
 	Movie() {
 		title = "";
 		genre = "";
@@ -16,6 +17,20 @@ class Movie
 		title = theTitle;
 		genre = theGenre;
 		year = theYear;
+	}
+
+	int getYear()
+	{
+		return year;
+	}
+	string getGenres()
+	{
+		return genre;
+	}
+
+	string getTitle()
+	{
+		return title;
 	}
 
 	//insert graphs here

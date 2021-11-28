@@ -143,9 +143,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="feelingsgenerator.h" />
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="parseFiles.h" />
+    <ClInclude Include="Movie.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\..\Downloads\emotions.txt" />
+    <Text Include="emotions.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="newMovieDatabase.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
