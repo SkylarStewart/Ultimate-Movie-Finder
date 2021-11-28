@@ -20,3 +20,7 @@ class Movie
 
 	//insert graphs here
 };
+
+void printhi() {
+	cout << "hi" << endl;
+}
