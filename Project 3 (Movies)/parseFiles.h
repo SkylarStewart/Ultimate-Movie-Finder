@@ -55,6 +55,7 @@ void parseMovies(Graph& g)
             getline(stream, movieTitle, ',');
 
             Movie newMovie = Movie(movieTitle, genres, stoi(releaseYear));
+            g.graph.push_back(newMovie);
             g.insert(newMovie);
 
         }
@@ -62,3 +63,4 @@ void parseMovies(Graph& g)
 
     cout << "potato" << endl;
 }
+

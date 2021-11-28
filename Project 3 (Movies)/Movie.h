@@ -1,5 +1,6 @@
 #pragma once
 #include<string>
+#include<vector>
 using namespace std;
 class Movie
 {
@@ -8,6 +9,8 @@ class Movie
 	int year;
 
 public:
+	vector<Movie>* yearEdges;
+	vector<Movie>* genreEdges;
 	Movie() {
 		title = "";
 		genre = "";
