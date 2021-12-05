@@ -9,8 +9,9 @@ class Movie
 	int year;
 
 public:
-	vector<Movie>* yearEdges;
-	vector<Movie>* genreEdges;
+	//vector<Movie>* yearEdges;
+	//vector<Movie>* genreEdges;
+	vector<Movie*> edges; //new version for immediate testing, holds the edges of each movie
 	Movie() {
 		title = "";
 		genre = "";

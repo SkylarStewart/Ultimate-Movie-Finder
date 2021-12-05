@@ -21,40 +21,21 @@ int main() {
 	}
 	g.buildEdges();
 
-	//test to build edges
-	vector<Movie>* testGenreEdges = g.graph.at(200).genreEdges;
-	vector<Movie>* testYearEdges = g.graph.at(200).yearEdges;
+	//tests to build edges (will take between 7-8 minutes to run :( not optimal)
+	//vector<Movie>* testGenreEdges = g.graph.at(200).genreEdges;
+	//vector<Movie>* testYearEdges = g.graph.at(200).yearEdges;
+	vector<Movie*> edgeList = g.graph.at(1000).edges;
 
-	cout << "test movie name: " << g.graph.at(200).getTitle() << endl;
-	cout << "printing year edges:" << endl;
-
-	for (int i = 0; i < testYearEdges->size(); i++) {
-		cout << testYearEdges->at(i).getTitle();
-		cout << " " << testYearEdges->at(i).getYear();
+	cout << "test movie name: " << g.graph.at(1000).getTitle() << endl;
+	cout << "printing edges with year and genre: " << endl;
+	for (int i = 0; i < g.graph.at(1000).edges.size(); i++) {
+		cout << "Name: " << g.graph.at(1000).edges.at(i)->getTitle() << endl;
+		cout << "Genre: " << g.graph.at(1000).edges.at(i)->getGenres() << endl;
+		cout << "Year: " << g.graph.at(1000).edges.at(i)->getYear() << endl;
 	}
 
-	cout << "printing genre edges" << endl;
-	for (int i = 0; i < testGenreEdges->size(); i++) {
-		cout << testGenreEdges->at(i).getTitle();
-		cout << " " << testGenreEdges->at(i).getGenres();
-	}
 
-	int genreedges = testGenreEdges->size();
-	int yearedges = testYearEdges->size();
-	int combined = genreedges + yearedges;
-	cout << endl << "total edges in this node: " << combined << endl;
 
-	int totaledges = 0;
-	for (int i = 0; i < g.graph.size(); i++) {
-		testGenreEdges = g.graph.at(i).genreEdges;
-		testYearEdges = g.graph.at(i).yearEdges;
-		genreedges = testGenreEdges->size();
-		yearedges = testYearEdges->size();
-		totaledges += genreedges;
-		totaledges += yearedges;
-
-	}
-
-	cout << endl << "total edges in the graph: " << totaledges << endl;
+	cout << endl << "total edges in the graph: " << g.edges << endl;
 
 }
