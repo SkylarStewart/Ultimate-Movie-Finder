@@ -33,9 +33,8 @@ int main() {
 		cout << "Genre: " << g.graph.at(1000).edges.at(i)->getGenres() << endl;
 		cout << "Year: " << g.graph.at(1000).edges.at(i)->getYear() << endl;
 	}
-
-
-
 	cout << endl << "total edges in the graph: " << g.edges << endl;
+	g.buildEdgeList();
+	cout << "total edge list length: " << g.edgeListLength << endl;
 
 }

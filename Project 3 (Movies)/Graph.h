@@ -20,10 +20,13 @@ struct Graph
 	void insert(Movie movie);
 	void insert(string genre);
 	void buildEdges();
+	void buildEdgeList();
 	int edges = 0;
+	int edgeListLength = 0;
 
 	//this vector is very important, it stores the graph. it is a vector of movies, and each movie has a container of edges.
 	vector<Movie> graph;
+	vector<pair<Movie*, Movie*>> edgeList;
 };
 
 void Graph::insert(Movie movie)
@@ -140,6 +143,20 @@ void Graph::buildEdges() {
 				}
 				//graph.at(i).yearEdges = &sameYears.at(j);
 			}
+		}
+	}
+}
+
+//requires the built up adjacency list. iterates through the entirety of the edge list, and each pair is added to the 
+//edge list data structure.
+void Graph::buildEdgeList() {
+	for (int i = 0; i < graph.size(); i++) {
+		for (int j = 0; j < graph.at(i).edges.size(); j++) {
+			pair<Movie*, Movie*> newpair;
+			newpair.first = &graph.at(i);
+			newpair.second = graph.at(i).edges.at(j);
+			edgeListLength++;
+			edgeList.push_back(newpair);
 		}
 	}
 }
