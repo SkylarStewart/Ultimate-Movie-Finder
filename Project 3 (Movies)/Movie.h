@@ -7,6 +7,9 @@ class Movie
 	string title;
 	string genre;
 	int year;
+	string ID;
+	int index;
+	int edgeCount = 0;
 
 public:
 	//vector<Movie>* yearEdges;
@@ -16,11 +19,15 @@ public:
 		title = "";
 		genre = "";
 		year = 0;
+		ID = "";
 	}
 	Movie(string theTitle, string theGenre, int theYear) {
 		title = theTitle;
 		genre = theGenre;
 		year = theYear;
+		ID += title;
+		ID += genre;
+		ID += to_string(theYear);
 	}
 
 	int getYear()
@@ -36,6 +43,29 @@ public:
 	{
 		return title;
 	}
+
+	string getID()
+	{
+		return ID;
+	}
+
+	void setIndex(int index) {
+		this->index = index;
+	}
+
+	int getIndex() {
+		return this->index;
+	}
+
+	void addEdge() {
+		edgeCount++;
+	}
+
+	int returnEdgeCount() {
+		return this->edgeCount;
+	}
+
+
 
 	//insert graphs here
 };

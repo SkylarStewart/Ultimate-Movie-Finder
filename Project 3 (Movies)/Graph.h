@@ -1,5 +1,7 @@
 #pragma once
 #include "Movie.h"
+#include <stack>
+#include <queue>
 #include <vector>
 #include <set>
 #include <map>
@@ -21,13 +23,24 @@ struct Graph
 	void insert(string genre);
 	void buildEdges();
 	void buildEdgeList();
+	void buildIndexMap();
+
+	//the various different search algorithms for the various different 
+	vector<Movie> DFSAdjList(string input, bool multiOrSingle);
+	vector<Movie> BFSAdjList(string input, bool multiOrSingle);
+	vector<Movie> DFSEdgeList(string input, bool multiOrSingle);
+	vector<Movie> BFSEdgeList(string input, bool multiOrSingle);
+
+
 	int edges = 0;
 	int edgeListLength = 0;
 
 	//this vector is very important, it stores the graph. it is a vector of movies, and each movie has a container of edges.
 	vector<Movie> graph;
 	vector<pair<Movie*, Movie*>> edgeList;
+	map<string, int> indexMap;
 };
+
 
 void Graph::insert(Movie movie)
 {
@@ -56,8 +69,8 @@ void Graph::insert(Movie movie)
 void Graph::buildEdges() {
 	srand(time(NULL));
 	for (int i = 0; i < graph.size(); i++) {
-		cout << "current number: " << i << endl;
-		cout << "current movie: " << graph.at(i).getTitle() << endl;
+		//cout << "current number: " << i << endl;
+		//cout << "current movie: " << graph.at(i).getTitle() << endl;
 		int currentYear = graph.at(i).getYear();
 		string currentGenre = graph.at(i).getGenres();
 		string currentTitle = graph.at(i).getTitle();
@@ -97,6 +110,7 @@ void Graph::buildEdges() {
 					}
 					else {
 						graph.at(i).edges.push_back(&sameGenres.at(j).at(randomInt));
+						graph.at(i).addEdge();
 						edges++;
 						counter++;
 					}
@@ -134,6 +148,7 @@ void Graph::buildEdges() {
 					}
 					else {
 						graph.at(i).edges.push_back(&sameYears.at(j).at(randomInt));
+						graph.at(i).addEdge();
 						edges++;
 						counter++;
 					}
@@ -160,4 +175,202 @@ void Graph::buildEdgeList() {
 		}
 	}
 }
+
+//depth first search using an adjacency list. inspired by the algorithms in the lecture notes
+vector<Movie> Graph::DFSAdjList(string input, bool multiOrSingle) {
+	vector<Movie> returnvec;
+	set<string> visited;
+	stack<string> q;
+	visited.insert(graph.at(0).getID());
+	q.push(graph.at(0).getID());
+
+	if (multiOrSingle) {
+		while (!q.empty()) {
+			string u = q.top();
+			Movie m = graph.at(indexMap.find(u)->second);
+			if (m.getGenres() == input) {
+				returnvec.push_back(m);
+			}
+			q.pop();
+			vector<Movie*> neighbors = m.edges;
+
+			for (Movie* movie : neighbors) {
+				if (visited.count(movie->getID()) == 0) {
+					visited.insert(movie->getID());
+					q.push(movie->getID());
+				}
+			}
+		}
+	}
+	if (!multiOrSingle) {
+		while (!q.empty()) {
+			string u = q.top();
+			Movie m = graph.at(indexMap.find(u)->second);
+			if (m.getTitle() == input) {
+				returnvec.push_back(m);
+				return returnvec;
+			}
+			q.pop();
+			vector<Movie*> neighbors = m.edges;
+
+			for (Movie* movie : neighbors) {
+				if (visited.count(movie->getID()) == 0) {
+					visited.insert(movie->getID());
+					q.push(movie->getID());
+				}
+			}
+		}
+	}
+	return returnvec;
+}
+
+//depth first search using an adjacency list. inspired by the algorithms in the lecture notes
+
+vector<Movie> Graph::BFSAdjList(string input, bool multiOrSingle) {
+	vector<Movie> returnvec;
+	set<string> visited;
+	queue<string> q;
+	visited.insert(graph.at(0).getID());
+	q.push(graph.at(0).getID());
+
+	if (multiOrSingle) {
+		while (!q.empty()) {
+			string u = q.front();
+			Movie m = graph.at(indexMap.find(u)->second);
+			if (m.getGenres() == input) {
+				returnvec.push_back(m);
+			}
+			q.pop();
+			vector<Movie*> neighbors = m.edges;
+
+			for (Movie* movie : neighbors) {
+				if (visited.count(movie->getID()) == 0) {
+					visited.insert(movie->getID());
+					q.push(movie->getID());
+				}
+			}
+		}
+	}
+	if (!multiOrSingle) {
+		while (!q.empty()) {
+			string u = q.front();
+			Movie m = graph.at(indexMap.find(u)->second);
+			if (m.getTitle() == input) {
+				returnvec.push_back(m);
+				return returnvec;
+			}
+			q.pop();
+			vector<Movie*> neighbors = m.edges;
+
+			for (Movie* movie : neighbors) {
+				if (visited.count(movie->getID()) == 0) {
+					visited.insert(movie->getID());
+					q.push(movie->getID());
+				}
+			}
+		}
+	}
+	return returnvec;
+}
+
+vector<Movie> Graph::DFSEdgeList(string input, bool multiOrSingle) {
+	vector<Movie> returnvec;
+	set<string> visited;
+	stack<string> q;
+	visited.insert(graph.at(0).getID());
+	q.push(graph.at(0).getID());
+
+	if (multiOrSingle) {
+		while (!q.empty()) {
+			string u = q.top();
+			Movie m = graph.at(indexMap.find(u)->second);
+			if (m.getGenres() == input) {
+				returnvec.push_back(m);
+			}
+			q.pop();
+			vector<Movie*> neighbors = m.edges;
+
+			for (Movie* movie : neighbors) {
+				if (visited.count(movie->getID()) == 0) {
+					visited.insert(movie->getID());
+					q.push(movie->getID());
+				}
+			}
+		}
+	}
+	if (!multiOrSingle) {
+		while (!q.empty()) {
+			string u = q.top();
+			Movie m = graph.at(indexMap.find(u)->second);
+			if (m.getTitle() == input) {
+				returnvec.push_back(m);
+				return returnvec;
+			}
+			q.pop();
+			vector<Movie*> neighbors = m.edges;
+
+			for (Movie* movie : neighbors) {
+				if (visited.count(movie->getID()) == 0) {
+					visited.insert(movie->getID());
+					q.push(movie->getID());
+				}
+			}
+		}
+	}
+	return returnvec;
+}
+
+vector<Movie> Graph::BFSEdgeList(string input, bool multiOrSingle) {
+	vector<Movie> returnvec;
+	set<string> visited;
+	queue<string> q;
+	visited.insert(graph.at(0).getID());
+	q.push(graph.at(0).getID());
+
+	if (multiOrSingle) {
+		while (!q.empty()) {
+			string u = q.front();
+			Movie m = graph.at(indexMap.find(u)->second);
+			if (m.getGenres() == input) {
+				returnvec.push_back(m);
+			}
+			q.pop();
+			vector<Movie*> neighbors = m.edges;
+
+			for (Movie* movie : neighbors) {
+				if (visited.count(movie->getID()) == 0) {
+					visited.insert(movie->getID());
+					q.push(movie->getID());
+				}
+			}
+		}
+	}
+	if (!multiOrSingle) {
+		while (!q.empty()) {
+			string u = q.front();
+			Movie m = graph.at(indexMap.find(u)->second);
+			if (m.getTitle() == input) {
+				returnvec.push_back(m);
+				return returnvec;
+			}
+			q.pop();
+			vector<Movie*> neighbors = m.edges;
+
+			for (Movie* movie : neighbors) {
+				if (visited.count(movie->getID()) == 0) {
+					visited.insert(movie->getID());
+					q.push(movie->getID());
+				}
+			}
+		}
+	}
+	return returnvec;
+}
+
+void Graph::buildIndexMap() {
+	for (int i = 0; i < graph.size(); i++) {
+		this->indexMap.emplace(graph.at(i).getID(), i);
+	}
+}
+
 

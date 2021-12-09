@@ -9,6 +9,7 @@ using namespace std;
 
 void parseMovies(Graph& g)
 {
+    int trackingIndex = -1;
     ifstream inFile("newMovieDatabase.csv");
 
     if (inFile.is_open())
@@ -17,7 +18,7 @@ void parseMovies(Graph& g)
         getline(inFile, line);
 
         while (getline(inFile, line)) {
-
+            trackingIndex++;
             istringstream stream(line);
 
             getline(stream, temp, ',');
@@ -55,6 +56,7 @@ void parseMovies(Graph& g)
             getline(stream, movieTitle, ',');
 
             Movie newMovie = Movie(movieTitle, genres, stoi(releaseYear));
+            newMovie.setIndex(trackingIndex);
             g.graph.push_back(newMovie);
             g.insert(newMovie);
 

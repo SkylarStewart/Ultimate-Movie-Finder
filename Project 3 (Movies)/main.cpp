@@ -9,7 +9,7 @@ using namespace std;
 
 //main is used to test functions, you can clear it out whenever you want.
 int main() {
-	/*cout << "ran!" << endl;
+	cout << "ran!" << endl;
 	cout << getBasefeeling("joyous");
 	Graph g;
 	parseMovies(g);
@@ -27,6 +27,8 @@ int main() {
 	//vector<Movie>* testYearEdges = g.graph.at(200).yearEdges;
 	vector<Movie*> edgeList = g.graph.at(1000).edges;
 
+	g.buildEdgeList();
+	g.buildIndexMap();
 	cout << "test movie name: " << g.graph.at(1000).getTitle() << endl;
 	cout << "printing edges with year and genre: " << endl;
 	for (int i = 0; i < g.graph.at(1000).edges.size(); i++) {
@@ -35,24 +37,11 @@ int main() {
 		cout << "Year: " << g.graph.at(1000).edges.at(i)->getYear() << endl;
 	}
 	cout << endl << "total edges in the graph: " << g.edges << endl;
-	g.buildEdgeList();
-	cout << "total edge list length: " << g.edgeListLength << endl;*/
-
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
-
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-
-		window.clear();
-		window.draw(shape);
-		window.display();
+	cout << "total edge list length: " << g.edgeListLength << endl;
+	vector<Movie> testVector = g.DFSAdjList("Three Godfathers", false);
+	for (int i = 0; i < testVector.size(); i++) {
+		cout << testVector.at(i).getTitle() << endl;
+		cout << testVector.at(i).getGenres() << endl;
 	}
+
 }
