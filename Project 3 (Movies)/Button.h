@@ -12,7 +12,7 @@ class Button
 public:
 	Button(float xPos, float yPos, string pressed, string unpressed)
 	{
-		buttonSprite.setScale(0.25, 0.25);
+		buttonSprite.setScale(0.28, 0.28);
 		buttonSprite.setPosition(xPos, yPos);
 		buttonSprite.setTexture(TextureManager::GetTexture(unpressed));
 		pressImage = pressed;

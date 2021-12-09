@@ -48,15 +48,17 @@ int main() {
 	*/
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "The Ultimate Movie Finder // The Movie Finders");
 
+	bool isinvalid = false;
+
 	//Sets background
 	sf::Sprite background;
 	background.setTexture(TextureManager::GetTexture("forest"));
 
 	vector<Button> buttons;
 	//BFS Button
-	Button bfs = Button(150, 150, "PressedBFS", "UnpressedBFS");
+	Button bfs = Button(200, 200, "PressedBFS", "UnpressedBFS");
 	buttons.push_back(bfs);
-	Button dfs = Button(150, 250, "PressedDFS", "UnpressedDFS");
+	Button dfs = Button(300, 200, "PressedDFS", "UnpressedDFS");
 	buttons.push_back(dfs);
 
 	sf::Font font;
@@ -65,24 +67,48 @@ int main() {
 		cout << "font not loading" << endl;
 	}
 
+
+	float xPosText, yPosText;
+
 	//Textbox
-	TextBox textBox = TextBox(1920 / 2 - 200, 200, 400, 80, "Enter Feeling Here", font);
+	sf::String text = "Enter Feeling Here";
+	TextBox textBox = TextBox(1920 / 2 - 160, 230, 400, 50, text, font, 20);
+
+
+	//Title box
+	text = "The Ultimate MovieFinder";
+	xPosText = 1920 / 2 - 210 + 100 / 2;
+	yPosText = 100 + 60 / 4;
+	TextBox titleBox = TextBox(1920 / 2 - 210, 100, 500, 60, text, font, 30);
+	titleBox.setTextPos(xPosText + 5, yPosText);
+
+	sf::Text invalid;
+	invalid.setCharacterSize(15);
+	invalid.setString(sf::String("Invalid emotion, try again."));
+	invalid.setPosition(1920 / 2 - 163, 285);
+	invalid.setFont(font);
+	invalid.setFillColor(sf::Color(214, 62, 62));
+	invalid.setOutlineColor(sf::Color::Black);
+	invalid.setOutlineThickness(.7);
+
+	sf::Text time;
+	time.setCharacterSize(15);
+	time.setString(sf::String("Time to run: "));
+	time.setPosition(1920 / 2 - 163, 854);
+	time.setFont(font);
+	time.setFillColor(sf::Color::White);
+	time.setOutlineColor(sf::Color::Black);
+	time.setOutlineThickness(.7);
 
 	//Movie Boxes
+	text = "Movie Title";
 	vector<TextBox> movieBoxes;
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 10; i++)
 	{
-		movieBoxes.push_back(TextBox(1920 / 2 - 200, 350 + 80 * i, 400, 80, "Movie Title", font));
+		movieBoxes.push_back(TextBox(1920 / 2 - 160, 350 + 50 * i, 400, 50, text, font, 20));
 	}
 
-	sf::Color textColor = sf::Color(0, 253, 171);
 	sf::String input;
-	sf::Text text;
-	text.setFont(font);
-	text.setString("Hello World");
-	text.setCharacterSize(24);
-	text.setFillColor(textColor);
-
 
 	while (window.isOpen())
 	{
@@ -92,20 +118,29 @@ int main() {
 			if (event.type == sf::Event::Closed)
 				window.close();
 
-			else if (event.type == sf::Event::TextEntered)
+			else if (event.type == sf::Event::TextEntered && textBox.isSelected())
 			{
-				if (event.text.unicode < 128 && event.text.unicode != 8)
+				if (event.text.unicode < 128 && event.text.unicode != 8 && input.getSize() < 44 && event.text.unicode != 13)
 				{
 					input += event.text.unicode;
-					text.setString(input);
+					textBox.updateText(input);
 				}
 			}
 			else if (event.type == sf::Event::KeyPressed)
 			{
-				if (event.key.code == sf::Keyboard::Backspace && input.getSize() > 0)
+				if (event.key.code == sf::Keyboard::Enter && textBox.isSelected())
+				{
+					if (input != "potato")
+						isinvalid = true;
+					else
+						isinvalid = false;
+				}
+
+				if (event.key.code == sf::Keyboard::Backspace && input.getSize() > 0
+					&& textBox.isSelected())
 				{
 					input = input.substring(0, input.getSize() - 1);
-					text.setString(input);
+					textBox.updateText(input);
 				}
 			}
 			else if (event.type == sf::Event::MouseButtonPressed)
@@ -124,6 +159,14 @@ int main() {
 									buttons[j].unPress();
 						}
 					}
+
+					auto bounds = textBox.getGlobalBounds();
+					if (bounds.contains(mousePos.x, mousePos.y) && !textBox.isSelected())
+					{
+						textBox.setSelect();
+					}
+					else if (!bounds.contains(mousePos.x, mousePos.y) && textBox.isSelected())
+						textBox.unselect();
 				}
 			}
 		}
@@ -131,12 +174,17 @@ int main() {
 		window.clear();
 		window.draw(background);
 
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < movieBoxes.size(); i++)
 			movieBoxes[i].Draw(window);
 
 		textBox.Draw(window);
+		titleBox.Draw(window);
+		if(isinvalid)
+		window.draw(invalid);
+		window.draw(time);
 
-		window.draw(text);
+		//
+		bool search = dfs.checkPressed();
 
 		for (int i = 0; i < buttons.size(); i++)
 			buttons[i].Draw(window);
