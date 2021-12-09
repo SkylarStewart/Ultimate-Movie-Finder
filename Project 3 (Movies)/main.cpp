@@ -264,7 +264,8 @@ int main() {
 					textBox.updateText(input);
 				}
 
-				
+				time.setString("Time to run: " + timeString + " ms.");
+
 			}
 		}
 
