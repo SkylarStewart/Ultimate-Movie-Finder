@@ -227,6 +227,7 @@ vector<Movie> Graph::DFSAdjList(string input, bool multiOrSingle) {
 //depth first search using an adjacency list. inspired by the algorithms in the lecture notes
 
 vector<Movie> Graph::BFSAdjList(string input, bool multiOrSingle) {
+	cout << "Started BFS" << endl;
 	vector<Movie> returnvec;
 	set<string> visited;
 	queue<string> q;
@@ -274,6 +275,7 @@ vector<Movie> Graph::BFSAdjList(string input, bool multiOrSingle) {
 }
 
 vector<Movie> Graph::DFSEdgeList(string input, bool multiOrSingle) {
+	cout << "Started DFS" << endl;
 	vector<Movie> returnvec;
 	set<string> visited;
 	stack<string> q;

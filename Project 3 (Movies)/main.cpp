@@ -7,11 +7,16 @@
 #include "TextureManager.h"
 #include "TextBox.h"
 #include "Button.h"
+#include <time.h>
+#include <chrono>
 using namespace std;
 
 //main is used to test functions, you can clear it out whenever you want.
 int main() {
-	/*cout << "ran!" << endl;
+	//sets random time seed
+	srand(time(NULL));
+
+	cout << "ran!" << endl;
 	cout << getBasefeeling("joyous");
 	Graph g;
 	parseMovies(g);
@@ -45,10 +50,15 @@ int main() {
 		cout << testVector.at(i).getTitle() << endl;
 		cout << testVector.at(i).getGenres() << endl;
 	}
-	*/
+	
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "The Ultimate Movie Finder // The Movie Finders");
 
 	bool isinvalid = false;
+	//0 == bfs
+	//1 == dfs
+	bool search = false;
+	vector<Movie> tenMovies;
+	string timeString;
 
 	//Sets background
 	sf::Sprite background;
@@ -128,12 +138,79 @@ int main() {
 			}
 			else if (event.type == sf::Event::KeyPressed)
 			{
+
 				if (event.key.code == sf::Keyboard::Enter && textBox.isSelected())
 				{
-					if (input != "potato")
+					string baseFeeling = getBasefeeling(input);
+					if (baseFeeling == "") {
+						
 						isinvalid = true;
-					else
+
+					}
+					else {
 						isinvalid = false;
+						vector<Movie> moviesPreParse;
+						auto begin = std::chrono::high_resolution_clock::now();
+						if (search == 0) {
+							if (baseFeeling == "happy") {
+								moviesPreParse = g.BFSAdjList("Action", true);
+							}
+							if (baseFeeling == "sad") {
+								moviesPreParse = g.BFSAdjList("Drama", true);
+							}
+							if (baseFeeling == "nervous") {
+								moviesPreParse = g.BFSAdjList("Crime", true);
+							}
+							if (baseFeeling == "angry") {
+								moviesPreParse = g.BFSAdjList("Horror", true);
+							}
+							if (baseFeeling == "depressed") {
+								moviesPreParse = g.BFSAdjList("Romance", true);
+							}
+						}
+						if (search == 1) {
+							if (baseFeeling == "happy") {
+								moviesPreParse = g.DFSAdjList("Action", true);
+							}
+							if (baseFeeling == "sad") {
+								moviesPreParse = g.DFSAdjList("Drama", true);
+							}
+							if (baseFeeling == "nervous") {
+								moviesPreParse = g.DFSAdjList("Crime", true);
+							}
+							if (baseFeeling == "angry") {
+								moviesPreParse = g.DFSAdjList("Horror", true);
+							}
+							if (baseFeeling == "depressed") {
+								moviesPreParse = g.DFSAdjList("Romance", true);
+							}
+						}
+						auto end = std::chrono::high_resolution_clock::now();
+						auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+						double timeDouble = elapsed.count() * 1e-6;
+						timeString = to_string(timeDouble);
+						cout << timeString << endl;
+						
+
+
+						tenMovies.clear();
+						while (tenMovies.size() < 10) {
+							int random = rand() % moviesPreParse.size();
+							Movie m = moviesPreParse.at(random);
+							bool included = false;
+
+							//checks if the movie has already been added
+							for (int k = 0; k < tenMovies.size(); k++) {
+								if (tenMovies.at(k).getTitle() == m.getTitle()) {
+									included = true;
+								}
+							}
+
+							if (included == false) {
+								tenMovies.push_back(m);
+							}
+						}
+					}
 				}
 
 				if (event.key.code == sf::Keyboard::Backspace && input.getSize() > 0
@@ -183,8 +260,8 @@ int main() {
 		window.draw(invalid);
 		window.draw(time);
 
-		//
-		bool search = dfs.checkPressed();
+
+		search = dfs.checkPressed();
 
 		for (int i = 0; i < buttons.size(); i++)
 			buttons[i].Draw(window);
