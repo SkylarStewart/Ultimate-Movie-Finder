@@ -178,6 +178,7 @@ void Graph::buildEdgeList() {
 
 //depth first search using an adjacency list. inspired by the algorithms in the lecture notes
 vector<Movie> Graph::DFSAdjList(string input, bool multiOrSingle) {
+	cout << "Started DFS" << endl;
 	vector<Movie> returnvec;
 	set<string> visited;
 	stack<string> q;

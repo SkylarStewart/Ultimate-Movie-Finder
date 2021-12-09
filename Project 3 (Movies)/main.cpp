@@ -136,6 +136,42 @@ int main() {
 					textBox.updateText(input);
 				}
 			}
+	
+			else if (event.type == sf::Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+					sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+					for (int i = 0; i < buttons.size(); i++)
+					{
+						auto bounds = buttons[i].getGlobalBounds();
+						if (buttons[i].checkPressed() == false && bounds.contains(mousePos.x, mousePos.y)) // If button is not pressed and you click on it 
+						{
+							buttons[i].setPressed();
+							if (i == 0)
+							{
+								buttons[1].unPress();
+								search = false;
+							}
+							else
+							{
+								buttons[0].unPress();
+								search = true;
+							}
+						}
+					}
+
+					auto bounds = textBox.getGlobalBounds();
+					if (bounds.contains(mousePos.x, mousePos.y) && !textBox.isSelected())
+					{
+						textBox.setSelect();
+					}
+					else if (!bounds.contains(mousePos.x, mousePos.y) && textBox.isSelected())
+						textBox.unselect();
+
+				}
+			}
+
 			else if (event.type == sf::Event::KeyPressed)
 			{
 
@@ -143,7 +179,7 @@ int main() {
 				{
 					string baseFeeling = getBasefeeling(input);
 					if (baseFeeling == "") {
-						
+
 						isinvalid = true;
 
 					}
@@ -190,7 +226,7 @@ int main() {
 						double timeDouble = elapsed.count() * 1e-6;
 						timeString = to_string(timeDouble);
 						cout << timeString << endl;
-						
+
 
 
 						tenMovies.clear();
@@ -213,38 +249,22 @@ int main() {
 					}
 				}
 
+				for (int i = 0; i < tenMovies.size(); i++)
+				{
+					string title = tenMovies[i].getTitle();
+					title += " (" + to_string(tenMovies[i].getYear()) + ')';
+					sf::String sfTitle = title;
+					movieBoxes[i].updateText(sfTitle);
+				}
+
 				if (event.key.code == sf::Keyboard::Backspace && input.getSize() > 0
 					&& textBox.isSelected())
 				{
 					input = input.substring(0, input.getSize() - 1);
 					textBox.updateText(input);
 				}
-			}
-			else if (event.type == sf::Event::MouseButtonPressed)
-			{
-				if (event.mouseButton.button == sf::Mouse::Left)
-				{
-					sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-					for (int i = 0; i < buttons.size(); i++)
-					{
-						auto bounds = buttons[i].getGlobalBounds();
-						if (buttons[i].checkPressed() == false && bounds.contains(mousePos.x, mousePos.y))
-						{
-							buttons[i].setPressed();
-							for (int j = 0; j < buttons.size(); j++)
-								if (i != j)
-									buttons[j].unPress();
-						}
-					}
 
-					auto bounds = textBox.getGlobalBounds();
-					if (bounds.contains(mousePos.x, mousePos.y) && !textBox.isSelected())
-					{
-						textBox.setSelect();
-					}
-					else if (!bounds.contains(mousePos.x, mousePos.y) && textBox.isSelected())
-						textBox.unselect();
-				}
+				
 			}
 		}
 
@@ -259,9 +279,6 @@ int main() {
 		if(isinvalid)
 		window.draw(invalid);
 		window.draw(time);
-
-
-		search = dfs.checkPressed();
 
 		for (int i = 0; i < buttons.size(); i++)
 			buttons[i].Draw(window);
