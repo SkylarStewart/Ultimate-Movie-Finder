@@ -18,6 +18,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="feelingsgenerator.h">
@@ -30,6 +33,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,5 +62,28 @@
     <None Include="sfml-system-d-2.dll" />
     <None Include="sfml-window-2.dll" />
     <None Include="sfml-window-d-2.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="forest.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="forest2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="PressedBFS.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="UnpressedBFS.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="PressedDFS.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="UnpressedDFS.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="GothicA1-Black.ttf" />
   </ItemGroup>
 </Project>

@@ -4,12 +4,14 @@
 #include "Movie.h"
 #include "parseFiles.h"
 #include <SFML/Graphics.hpp>
-
+#include "TextureManager.h"
+#include "TextBox.h"
+#include "Button.h"
 using namespace std;
 
 //main is used to test functions, you can clear it out whenever you want.
 int main() {
-	cout << "ran!" << endl;
+	/*cout << "ran!" << endl;
 	cout << getBasefeeling("joyous");
 	Graph g;
 	parseMovies(g);
@@ -43,5 +45,102 @@ int main() {
 		cout << testVector.at(i).getTitle() << endl;
 		cout << testVector.at(i).getGenres() << endl;
 	}
+	*/
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "The Ultimate Movie Finder // The Movie Finders");
 
+	//Sets background
+	sf::Sprite background;
+	background.setTexture(TextureManager::GetTexture("forest"));
+
+	vector<Button> buttons;
+	//BFS Button
+	Button bfs = Button(150, 150, "PressedBFS", "UnpressedBFS");
+	buttons.push_back(bfs);
+	Button dfs = Button(150, 250, "PressedDFS", "UnpressedDFS");
+	buttons.push_back(dfs);
+
+	sf::Font font;
+	if (!font.loadFromFile("GothicA1-Black.ttf"))
+	{
+		cout << "font not loading" << endl;
+	}
+
+	//Textbox
+	TextBox textBox = TextBox(1920 / 2 - 200, 200, 400, 80, "Enter Feeling Here", font);
+
+	//Movie Boxes
+	vector<TextBox> movieBoxes;
+	for (int i = 0; i < 5; i++)
+	{
+		movieBoxes.push_back(TextBox(1920 / 2 - 200, 350 + 80 * i, 400, 80, "Movie Title", font));
+	}
+
+	sf::Color textColor = sf::Color(0, 253, 171);
+	sf::String input;
+	sf::Text text;
+	text.setFont(font);
+	text.setString("Hello World");
+	text.setCharacterSize(24);
+	text.setFillColor(textColor);
+
+
+	while (window.isOpen())
+	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window.close();
+
+			else if (event.type == sf::Event::TextEntered)
+			{
+				if (event.text.unicode < 128 && event.text.unicode != 8)
+				{
+					input += event.text.unicode;
+					text.setString(input);
+				}
+			}
+			else if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::Backspace && input.getSize() > 0)
+				{
+					input = input.substring(0, input.getSize() - 1);
+					text.setString(input);
+				}
+			}
+			else if (event.type == sf::Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+					sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+					for (int i = 0; i < buttons.size(); i++)
+					{
+						auto bounds = buttons[i].getGlobalBounds();
+						if (buttons[i].checkPressed() == false && bounds.contains(mousePos.x, mousePos.y))
+						{
+							buttons[i].setPressed();
+							for (int j = 0; j < buttons.size(); j++)
+								if (i != j)
+									buttons[j].unPress();
+						}
+					}
+				}
+			}
+		}
+
+		window.clear();
+		window.draw(background);
+
+		for (int i = 0; i < 5; i++)
+			movieBoxes[i].Draw(window);
+
+		textBox.Draw(window);
+
+		window.draw(text);
+
+		for (int i = 0; i < buttons.size(); i++)
+			buttons[i].Draw(window);
+		window.display();
+
+	}
 }
