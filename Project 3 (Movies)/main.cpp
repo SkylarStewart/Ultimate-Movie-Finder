@@ -92,6 +92,7 @@ int main() {
 	TextBox titleBox = TextBox(1920 / 2 - 210, 100, 500, 60, text, font, 30);
 	titleBox.setTextPos(xPosText + 5, yPosText);
 
+	//Invalid text when emotion is invalid
 	sf::Text invalid;
 	invalid.setCharacterSize(15);
 	invalid.setString(sf::String("Invalid emotion, try again."));
@@ -101,6 +102,7 @@ int main() {
 	invalid.setOutlineColor(sf::Color::Black);
 	invalid.setOutlineThickness(.7);
 
+	//Time to run BFS/DFS text
 	sf::Text time;
 	time.setCharacterSize(15);
 	time.setString(sf::String("Time to run: "));
@@ -120,6 +122,7 @@ int main() {
 
 	sf::String input;
 
+	//GUI Window
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -128,6 +131,7 @@ int main() {
 			if (event.type == sf::Event::Closed)
 				window.close();
 
+			//If textbox selected and user types, input taken
 			else if (event.type == sf::Event::TextEntered && textBox.isSelected())
 			{
 				if (event.text.unicode < 128 && event.text.unicode != 8 && input.getSize() < 44 && event.text.unicode != 13)
@@ -144,8 +148,9 @@ int main() {
 					sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 					for (int i = 0; i < buttons.size(); i++)
 					{
+						//If you click on BFS / DFS, other button is deactivated
 						auto bounds = buttons[i].getGlobalBounds();
-						if (buttons[i].checkPressed() == false && bounds.contains(mousePos.x, mousePos.y)) // If button is not pressed and you click on it 
+						if (buttons[i].checkPressed() == false && bounds.contains(mousePos.x, mousePos.y))
 						{
 							buttons[i].setPressed();
 							if (i == 0)
@@ -160,6 +165,8 @@ int main() {
 							}
 						}
 					}
+
+					//
 
 					auto bounds = textBox.getGlobalBounds();
 					if (bounds.contains(mousePos.x, mousePos.y) && !textBox.isSelected())

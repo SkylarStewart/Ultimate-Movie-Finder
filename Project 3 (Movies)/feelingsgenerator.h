@@ -9,6 +9,10 @@ string getBasefeeling(string input) {
 
 	//initialization
 	string lowerInput = input;
+	for (int i = 0; i < lowerInput.size(); i++)
+	{
+		lowerInput[i] = tolower(lowerInput[i]);
+	}
 	string returnVal = "";
 	vector<string> first;
 	vector<string> second;
@@ -28,7 +32,7 @@ string getBasefeeling(string input) {
 
 	//finds a matching word (if it exists)
 	for (int i = 0; i < first.size(); i++) {
-		if (first.at(i) == input) {
+		if (first.at(i) == lowerInput) {
 			returnVal = second.at(i);
 		}
 	}
