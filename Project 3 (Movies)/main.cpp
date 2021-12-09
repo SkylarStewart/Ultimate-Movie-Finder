@@ -166,8 +166,7 @@ int main() {
 						}
 					}
 
-					//
-
+					//Selects box if you click on it
 					auto bounds = textBox.getGlobalBounds();
 					if (bounds.contains(mousePos.x, mousePos.y) && !textBox.isSelected())
 					{
@@ -179,6 +178,7 @@ int main() {
 				}
 			}
 
+			//Checks emotion and generates 10 movies if valid
 			else if (event.type == sf::Event::KeyPressed)
 			{
 
@@ -228,6 +228,7 @@ int main() {
 								moviesPreParse = g.DFSAdjList("Romance", true);
 							}
 						}
+						//Times how long it takes to generate 10 movies using bfs/dfs
 						auto end = std::chrono::high_resolution_clock::now();
 						auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
 						double timeDouble = elapsed.count() * 1e-6;
@@ -256,6 +257,7 @@ int main() {
 					}
 				}
 
+				//Puts generated movies into movie boxes
 				for (int i = 0; i < tenMovies.size(); i++)
 				{
 					string title = tenMovies[i].getTitle();
@@ -264,6 +266,7 @@ int main() {
 					movieBoxes[i].updateText(sfTitle);
 				}
 
+				//Removes character at end if backspace is pressed
 				if (event.key.code == sf::Keyboard::Backspace && input.getSize() > 0
 					&& textBox.isSelected())
 				{
@@ -276,6 +279,7 @@ int main() {
 			}
 		}
 
+		//Draws all sprites / text
 		window.clear();
 		window.draw(background);
 
@@ -284,12 +288,15 @@ int main() {
 
 		textBox.Draw(window);
 		titleBox.Draw(window);
+
 		if(isinvalid)
 		window.draw(invalid);
+
 		window.draw(time);
 
 		for (int i = 0; i < buttons.size(); i++)
 			buttons[i].Draw(window);
+
 		window.display();
 
 	}

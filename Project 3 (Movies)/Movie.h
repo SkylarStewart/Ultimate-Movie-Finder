@@ -65,11 +65,4 @@ public:
 		return this->edgeCount;
 	}
 
-
-
-	//insert graphs here
 };
-
-void printhi() {
-	cout << "hi" << endl;
-}

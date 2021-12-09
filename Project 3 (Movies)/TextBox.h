@@ -12,8 +12,10 @@ class TextBox
 	int charSize;
 
 public:
+	//Constructor
 	TextBox(float xPos, float yPos, float xSize, float ySize, sf::String& text, sf::Font& font, int charSize)
 	{
+		//Initializes background box for textbox
 		this->xPosText = xPos + xSize / 2;
 		this->yPosText = yPos + ySize / 4;
 		this->charSize = charSize;
@@ -25,6 +27,7 @@ public:
 
 		sf::Color textColor = sf::Color(255, 255, 255);
 
+		//Initializes text put inside box
 		boxText.setFont(font);
 		boxText.setString(text);
 		boxText.setCharacterSize(charSize);
@@ -40,11 +43,13 @@ public:
 		window.draw(boxText);
 	}
 
+	//Getters
 	sf::Rect<float> getGlobalBounds()
 	{
 		return boxSprite.getGlobalBounds();
 	}
 
+	//Updates text with a new string and resizes if needed
 	void updateText(sf::String& newText)
 	{
 		boxText.setString(newText);
@@ -61,6 +66,7 @@ public:
 		}
 	}
 
+	//Selection tools
 	bool isSelected()
 	{
 		return selected;

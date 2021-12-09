@@ -10,6 +10,7 @@ class Button
 	bool isPressed;
 	
 public:
+	//Button constructor
 	Button(float xPos, float yPos, string pressed, string unpressed)
 	{
 		buttonSprite.setScale(0.28, 0.28);
@@ -25,6 +26,7 @@ public:
 		window.draw(buttonSprite);
 	}
 
+	//Pressing functionality
 	void setPressed()
 	{
 		isPressed = true;
